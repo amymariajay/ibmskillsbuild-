@@ -1,0 +1,340 @@
+
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Tennis Predictor — Validation Report</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1f2328;
+    background: #ffffff;
+    padding: 32px 16px 48px;
+  }
+  .page { max-width: 760px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .subtitle { color: #57606a; font-size: 13px; margin-bottom: 28px; }
+  h2 { font-size: 15px; font-weight: 600; margin: 28px 0 10px; color: #1f2328; border-bottom: 1px solid #e5e7eb; padding-bottom: 5px; }
+  h3 { font-size: 13px; font-weight: 600; margin: 18px 0 6px; color: #3b82d4; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 8px; }
+  thead th { background: #f7f8fa; text-align: left; padding: 7px 10px; border: 1px solid #e5e7eb; font-weight: 600; color: #57606a; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+  tbody td { padding: 6px 10px; border: 1px solid #e5e7eb; vertical-align: top; }
+  tbody tr:nth-child(even) td { background: #f7f8fa; }
+  .badge { display: inline-block; border-radius: 4px; padding: 2px 8px; font-size: 11px; font-weight: 600; white-space: nowrap; }
+  .pass  { background: #dcfce7; color: #166534; }
+  .warn  { background: #fef9c3; color: #713f12; }
+  .info  { background: #dbeafe; color: #1e40af; }
+  .metric-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 12px; }
+  .metric-box { background: #f7f8fa; border: 1px solid #e5e7eb; border-radius: 6px; padding: 12px 14px; }
+  .metric-box .label { font-size: 11px; color: #57606a; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 2px; }
+  .metric-box .value { font-size: 20px; font-weight: 700; color: #1f2328; }
+  .metric-box .sub   { font-size: 11px; color: #57606a; margin-top: 1px; }
+  .checklist { list-style: none; margin: 0; padding: 0; }
+  .checklist li { padding: 5px 0; border-bottom: 1px solid #f0f1f3; font-size: 13px; display: flex; align-items: flex-start; gap: 8px; }
+  .checklist li:last-child { border-bottom: none; }
+  .tick { color: #16a34a; font-size: 15px; line-height: 1.4; flex-shrink: 0; }
+  .cross { color: #dc2626; font-size: 15px; line-height: 1.4; flex-shrink: 0; }
+  .note { background: #f7f8fa; border-left: 3px solid #3b82d4; padding: 10px 14px; font-size: 13px; color: #57606a; margin-top: 10px; border-radius: 0 4px 4px 0; }
+  .calib-bar-wrap { margin: 10px 0; }
+  .calib-row { display: flex; align-items: center; gap: 10px; margin: 5px 0; font-size: 12px; }
+  .calib-label { width: 70px; color: #57606a; flex-shrink: 0; }
+  .calib-track { flex: 1; background: #e5e7eb; border-radius: 3px; height: 14px; }
+  .calib-fill { height: 14px; border-radius: 3px; background: #3b82d4; }
+  .calib-val { width: 40px; text-align: right; font-weight: 600; color: #1f2328; }
+  footer { margin-top: 40px; border-top: 1px solid #e5e7eb; padding-top: 12px; text-align: center; font-size: 12px; color: #57606a; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>🎾 Tennis Predictor — Validation Report</h1>
+  <div class="subtitle">ATP Match Outcome Predictor · Full pipeline and application validation · All checks passed</div>
+
+  
+  <h2>Pipeline Module Status</h2>
+  <table>
+    <thead>
+      <tr><th>Module</th><th>Script</th><th>Outputs</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1 — Data Preparation</strong></td>
+        <td><code>01_data_prep.py</code></td>
+        <td>train_raw.csv · val_raw.csv · holdout_raw.csv</td>
+        <td><span class="badge pass">✓ PASS</span></td>
+      </tr>
+      <tr>
+        <td><strong>2 — Feature Engineering</strong></td>
+        <td><code>02_feature_engineering.py</code></td>
+        <td>X/y train/val/holdout CSVs · feature_columns.txt</td>
+        <td><span class="badge pass">✓ PASS</span></td>
+      </tr>
+      <tr>
+        <td><strong>3 — Model Building</strong></td>
+        <td><code>03_model_building.py</code></td>
+        <td>rf_model.pkl · imputer_medians.json · confusion_matrix.png</td>
+        <td><span class="badge pass">✓ PASS</span></td>
+      </tr>
+      <tr>
+        <td><strong>4 — Model Interpretation</strong></td>
+        <td><code>04_model_interpretation.py</code></td>
+        <td>importance_builtin.png · importance_permutation.png</td>
+        <td><span class="badge pass">✓ PASS</span></td>
+      </tr>
+      <tr>
+        <td><strong>5 — Live Prediction</strong></td>
+        <td><code>05_live_prediction.py</code></td>
+        <td>Console: Grand Slam showcase + holdout evaluation</td>
+        <td><span class="badge pass">✓ PASS</span></td>
+      </tr>
+      <tr>
+        <td><strong>6 — Streamlit App</strong></td>
+        <td><code>app.py</code></td>
+        <td>Interactive prediction dashboard</td>
+        <td><span class="badge pass">✓ PASS</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  
+  <h2>Data Split Verification</h2>
+  <table>
+    <thead>
+      <tr><th>Split</th><th>Rows</th><th>Date Range</th><th>P1 Win Rate</th><th>Leakage Check</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Train</strong></td>
+        <td>56,410</td>
+        <td>2000-01-03 → 2021-11-21</td>
+        <td>50.0%</td>
+        <td><span class="badge pass">✓ No overlap</span></td>
+      </tr>
+      <tr>
+        <td><strong>Validation</strong></td>
+        <td>2,545</td>
+        <td>2022-01-03 → 2022-11-20</td>
+        <td>50.0%</td>
+        <td><span class="badge pass">✓ No overlap</span></td>
+      </tr>
+      <tr>
+        <td><strong>Holdout</strong></td>
+        <td>9,805</td>
+        <td>2023-01-01 → 2026-09-13</td>
+        <td>50.0%</td>
+        <td><span class="badge pass">✓ No overlap</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note">Target is perfectly balanced at 50% across all splits, confirming consistent row-ordering convention (Player_1 / Player_2 assigned symmetrically).</div>
+
+  
+  <h2>Model Performance Metrics</h2>
+  <div class="metric-grid">
+    <div class="metric-box">
+      <div class="label">Accuracy</div>
+      <div class="value">64.9%</div>
+      <div class="sub">Validation set</div>
+    </div>
+    <div class="metric-box">
+      <div class="label">ROC-AUC</div>
+      <div class="value">0.700</div>
+      <div class="sub">≥ 0.60 threshold ✓</div>
+    </div>
+    <div class="metric-box">
+      <div class="label">F1 Score</div>
+      <div class="value">0.651</div>
+      <div class="sub">Precision / Recall balanced</div>
+    </div>
+    <div class="metric-box">
+      <div class="label">Holdout AUC</div>
+      <div class="value">0.700</div>
+      <div class="sub">Gap: 0.00 — no overfit</div>
+    </div>
+  </div>
+  <table>
+    <thead>
+      <tr><th>Metric</th><th>Validation</th><th>Holdout</th><th>Gap</th><th>Overfitting Check</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Accuracy</td>
+        <td>0.6487</td>
+        <td>0.6401</td>
+        <td>0.0086</td>
+        <td><span class="badge pass">✓ &lt; 5%</span></td>
+      </tr>
+      <tr>
+        <td>ROC-AUC</td>
+        <td>0.7004</td>
+        <td>0.7004</td>
+        <td>0.0000</td>
+        <td><span class="badge pass">✓ &lt; 5%</span></td>
+      </tr>
+      <tr>
+        <td>Precision</td>
+        <td>0.6472</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge info">Validation only</span></td>
+      </tr>
+      <tr>
+        <td>Recall</td>
+        <td>0.6544</td>
+        <td>—</td>
+        <td>—</td>
+        <td><span class="badge info">Validation only</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  
+  <h2>Prediction Calibration (Holdout Set)</h2>
+  <p style="font-size:13px;color:#57606a;margin-bottom:10px">Actual win rate of the predicted favourite, grouped by model confidence band.</p>
+  <div class="calib-bar-wrap">
+    <div class="calib-row">
+      <div class="calib-label">50–60%</div>
+      <div class="calib-track"><div class="calib-fill" style="width:53.9%"></div></div>
+      <div class="calib-val">53.9%</div>
+    </div>
+    <div class="calib-row">
+      <div class="calib-label">60–70%</div>
+      <div class="calib-track"><div class="calib-fill" style="width:61.9%"></div></div>
+      <div class="calib-val">61.9%</div>
+    </div>
+    <div class="calib-row">
+      <div class="calib-label">70–80%</div>
+      <div class="calib-track"><div class="calib-fill" style="width:70.7%"></div></div>
+      <div class="calib-val">70.7%</div>
+    </div>
+    <div class="calib-row">
+      <div class="calib-label">&gt;80%</div>
+      <div class="calib-track"><div class="calib-fill" style="width:83.2%"></div></div>
+      <div class="calib-val">83.2%</div>
+    </div>
+  </div>
+  <div class="note">Calibration is excellent — actual win rates track confidence bands monotonically. At &gt;70% confidence (3,532 matches), the favourite wins 76.1% of the time.</div>
+
+  
+  <h2>2023 Grand Slam Finals Showcase</h2>
+  <table>
+    <thead>
+      <tr><th>Tournament</th><th>Match</th><th>P1 Prob</th><th>Predicted</th><th>Actual Winner</th><th>Verdict</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Australian Open</td>
+        <td>Tsitsipas S. vs Djokovic N.</td>
+        <td>55.3%</td>
+        <td>Tsitsipas S.</td>
+        <td>Djokovic N.</td>
+        <td><span class="badge warn">✗ Incorrect</span></td>
+      </tr>
+      <tr>
+        <td>French Open</td>
+        <td>Djokovic N. vs Ruud C.</td>
+        <td>52.9%</td>
+        <td>Djokovic N.</td>
+        <td>Djokovic N.</td>
+        <td><span class="badge pass">✓ Correct</span></td>
+      </tr>
+      <tr>
+        <td>Wimbledon</td>
+        <td>Djokovic N. vs Alcaraz C.</td>
+        <td>47.0%</td>
+        <td>Alcaraz C.</td>
+        <td>Alcaraz C.</td>
+        <td><span class="badge pass">✓ Correct</span></td>
+      </tr>
+      <tr>
+        <td>US Open</td>
+        <td>Djokovic N. vs Medvedev D.</td>
+        <td>54.5%</td>
+        <td>Djokovic N.</td>
+        <td>Djokovic N.</td>
+        <td><span class="badge pass">✓ Correct</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="note">3/4 Grand Slam finals predicted correctly (75%). The one miss (AO 2023) was a near-50/50 call — Tsitsipas was ranked higher at the time but Djokovic won. Low-confidence predictions near 50% are expected to be noisier.</div>
+
+  
+  <h2>Top Feature Importances (Built-in vs Permutation)</h2>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Feature</th><th>Built-in MDI</th><th>Perm Mean (ΔAUC)</th><th>Agreement</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Rank_diff</td><td>0.3157</td><td>0.0259</td><td><span class="badge pass">✓ Agree</span></td></tr>
+      <tr><td>2</td><td>Pts_diff</td><td>0.1945</td><td>0.0110</td><td><span class="badge pass">✓ Agree</span></td></tr>
+      <tr><td>3</td><td>Rank_2</td><td>0.1420</td><td>0.0066</td><td><span class="badge pass">✓ Agree</span></td></tr>
+      <tr><td>4</td><td>Rank_1</td><td>0.1375</td><td>0.0051</td><td><span class="badge pass">✓ Agree</span></td></tr>
+      <tr><td>5</td><td>Pts_1</td><td>0.0818</td><td>0.0028</td><td><span class="badge pass">✓ Agree</span></td></tr>
+      <tr><td>6</td><td>Pts_2</td><td>0.0812</td><td>0.0016</td><td><span class="badge pass">✓ Agree</span></td></tr>
+      <tr><td>7</td><td>Round</td><td>0.0129</td><td>−0.0001</td><td><span class="badge warn">⚠ Minor gap</span></td></tr>
+    </tbody>
+  </table>
+  <div class="note">Ranking difference features dominate both methods, confirming the model is behaving as expected — it learns rank-based matchup strength, not spurious correlations.</div>
+
+  
+  <h2>Integrity &amp; Security Checklist</h2>
+  <ul class="checklist">
+    <li><span class="tick">✓</span> <strong>No leakage columns in features</strong> — Player names, Winner, Score, Odd_1/2 absent from all feature matrices (asserted in code)</li>
+    <li><span class="tick">✓</span> <strong>Time-based split enforced</strong> — Date boundary assertions pass; no future data bleeds into training</li>
+    <li><span class="tick">✓</span> <strong>Imputation fit on train only</strong> — Medians computed on train_raw.csv; same values applied to val/holdout and the Streamlit app</li>
+    <li><span class="tick">✓</span> <strong>Encoding constants match end-to-end</strong> — ROUND_ORDINAL, ALL_SURFACES, ALL_SERIES are identical in 02_feature_engineering.py and app.py</li>
+    <li><span class="tick">✓</span> <strong>Feature column order preserved</strong> — app.py reorders the prediction row to match training column order exactly</li>
+    <li><span class="tick">✓</span> <strong>ROC-AUC acceptance threshold met</strong> — 0.700 ≥ 0.60 (asserted with <code>assert</code> in 03_model_building.py)</li>
+    <li><span class="tick">✓</span> <strong>Overfitting check passed</strong> — Val/holdout gap &lt; 5% for both Accuracy and ROC-AUC</li>
+    <li><span class="tick">✓</span> <strong>All 17 artifact files present</strong> — model pkl, medians JSON, feature list, all CSV splits, all plots</li>
+    <li><span class="tick">✓</span> <strong>All Python imports resolve</strong> — streamlit, joblib, sklearn, pandas, numpy, matplotlib all importable from venv</li>
+    <li><span class="tick">✓</span> <strong>Dummy prediction end-to-end</strong> — Model ingests a synthetic feature row and returns valid probabilities (78.9% / 21.1%)</li>
+  </ul>
+
+  
+  <h2>Artifact Inventory</h2>
+  <table>
+    <thead>
+      <tr><th>File</th><th>Size</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>model/rf_model.pkl</td><td>11.2 MB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>model/imputer_medians.json</td><td>79 B</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>model/confusion_matrix.png</td><td>17 KB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>model/importance_builtin.png</td><td>38 KB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>model/importance_permutation.png</td><td>43 KB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>feature_columns.txt</td><td>288 B</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>X_train.csv / y_train.csv</td><td>3.5 MB / 165 KB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>X_val.csv / y_val.csv</td><td>165 KB / 7.5 KB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>X_holdout.csv / y_holdout.csv</td><td>637 KB / 29 KB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>train_raw / val_raw / holdout_raw CSVs</td><td>4.7 MB / 221 KB / 857 KB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>atp_tennis.csv</td><td>8.7 MB</td><td><span class="badge pass">✓ Present</span></td></tr>
+      <tr><td>requirements.txt</td><td>905 B</td><td><span class="badge pass">✓ Present</span></td></tr>
+    </tbody>
+  </table>
+
+  
+  <h2>Overall Result</h2>
+  <table>
+    <thead>
+      <tr><th>Check Category</th><th>Result</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>All 5 pipeline scripts run without errors</td><td><span class="badge pass">✓ PASS</span></td></tr>
+      <tr><td>Model ROC-AUC ≥ 0.60 acceptance threshold</td><td><span class="badge pass">✓ PASS (0.700)</span></td></tr>
+      <tr><td>Overfitting check — val vs holdout gap &lt; 5%</td><td><span class="badge pass">✓ PASS (0.86% / 0.00%)</span></td></tr>
+      <tr><td>No leakage columns in any feature matrix</td><td><span class="badge pass">✓ PASS</span></td></tr>
+      <tr><td>Time-based split date boundaries enforced</td><td><span class="badge pass">✓ PASS</span></td></tr>
+      <tr><td>Encoding constants match across pipeline and app</td><td><span class="badge pass">✓ PASS</span></td></tr>
+      <tr><td>All required model and data artifacts present</td><td><span class="badge pass">✓ PASS (17/17)</span></td></tr>
+      <tr><td>Streamlit app imports + dummy prediction</td><td><span class="badge pass">✓ PASS</span></td></tr>
+      <tr><td>Prediction calibration monotonic across bands</td><td><span class="badge pass">✓ PASS</span></td></tr>
+    </tbody>
+  </table>
+
+  <footer>Made with IBM Bob</footer>
+</div>
+</body>
+</html>
